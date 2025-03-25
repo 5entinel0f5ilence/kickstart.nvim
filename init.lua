@@ -104,6 +104,9 @@ vim.opt.number = true
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
 
+-- Vertical line at N characters from the left.
+--vim.api.nvim_set_option_value('colorcolumn', '81', {})
+
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
 
@@ -791,15 +794,15 @@ require('lazy').setup({
           return 'make install_jsregexp'
         end)(),
         dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
+          -- 'friendly-snippets' contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -1021,6 +1024,16 @@ require('lazy').setup({
 
     vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle, { desc = 'Open edit history' }),
   },
+  { -- The NERDTree is a file system explorer for the Vim editor. Using this plugin,
+    -- users can visually browse complex directory hierarchies, quickly open files for reading or editing,
+    -- and perform basic file system operations.
+    'preservim/nerdtree',
+
+    vim.keymap.set('n', '<C-n>', vim.cmd.NERDTreeToggle, { desc = 'View directory hierarchies' }),
+  },
+  --  {
+  --    'neoclide/coc.nvim',
+  --  },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
