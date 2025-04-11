@@ -5,5 +5,5 @@ nvim
 
 spell/
 #lazy-lock.json
-undodir/
+undodir/*
 set_github_token.sh

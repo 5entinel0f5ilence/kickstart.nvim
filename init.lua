@@ -214,6 +214,26 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+-- Automatically save and load folds
+vim.api.nvim_create_autocmd('BufWinLeave', {
+  desc = 'Autosave folds on exit',
+  command = 'mkview',
+})
+
+vim.api.nvim_create_autocmd('BufWinEnter', {
+  desc = 'Autoload folds on exit',
+  command = 'silent! loadview',
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  desc = 'Ensures tabs are used on Makefiles instead of spaces',
+  callback = function(event)
+    if event.match == 'make' then
+      vim.o.expandtab = false -- also tried with vim.opt
+    end
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
@@ -1034,6 +1054,81 @@ require('lazy').setup({
   --  {
   --    'neoclide/coc.nvim',
   --  },
+  --{ -- DAP (Debug Adapter Protocol).
+  --  'mfussenegger/nvim-dap',
+  --  dependencies = {
+  --    'rcarriga/nvim-dap-ui',
+  --    'nvim-neotest/nvim-nio',
+  --  },
+  --  config = function()
+  --    local dap = require 'dap'
+  --    local dapui = require 'dapui'
+  --    dap.listeners.before.attach.dapui_config = function()
+  --      dapui.open()
+  --    end
+  --    dap.listeners.before.launch.dapui_config = function()
+  --      dapui.open()
+  --    end
+  --    dap.listeners.before.event_terminated.dapui_config = function()
+  --      dapui.close()
+  --    end
+  --    dap.listeners.before.event_exited.dapui_config = function()
+  --      dapui.close()
+  --    end
+  --    vim.keymap.set('n', '<Leader>b', function()
+  --      require('dap').toggle_breakpoint()
+  --    end, { desc = 'Toggle debug breakpoint' })
+
+  --    vim.keymap.set('n', '<Leader>cd', function()
+  --      require('dap').continue()
+  --    end, { desc = 'Continue debugging' })
+
+  --    dap.adapters.gdb = {
+  --      type = 'executable',
+  --      command = 'gdb',
+  --      args = { '--interpreter=dap', '--eval-command', 'set print pretty on' },
+  --    }
+
+  --    dap.configurations.c = {
+  --      {
+  --        name = 'Launch',
+  --        type = 'gdb',
+  --        request = 'launch',
+  --        program = function()
+  --          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+  --        end,
+  --        cwd = '${workspaceFolder}',
+  --        stopAtBeginningOfMainSubprogram = false,
+  --      },
+  --      --{
+  --      --  name = 'Select and attach to process',
+  --      --  type = 'gdb',
+  --      --  request = 'attach',
+  --      --  program = function()
+  --      --    return vim.fn.input('Path to executable: /usr/bin/gdb', vim.fn.getcwd() .. '/', 'file')
+  --      --  end,
+  --      --  pid = function()
+  --      --    local name = vim.fn.input 'Executable name (filter): '
+  --      --    return require('dap.utils').pick_process { filter = name }
+  --      --  end,
+  --      --  cwd = '${workspaceFolder}',
+  --      --},
+  --      --{
+  --      --  name = 'Attach to gdbserver :1234',
+  --      --  type = 'gdb',
+  --      --  request = 'attach',
+  --      --  target = 'localhost:1234',
+  --      --  program = function()
+  --      --    return vim.fn.input('Path to executable: /usr/bin/gdb', vim.fn.getcwd() .. '/', 'file')
+  --      --  end,
+  --      --  cwd = '${workspaceFolder}',
+  --      --},
+  --    }
+  --  end,
+  --},
+  --{
+  --  'rcarriga/nvim-dap-ui',
+  --},
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
