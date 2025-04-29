@@ -91,7 +91,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
+vim.g.have_nerd_font = true
 
 -- [[ Setting options ]]
 -- See `:help vim.opt`
@@ -103,9 +103,6 @@ vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 vim.opt.relativenumber = true
-
--- Vertical line at N characters from the left.
---vim.api.nvim_set_option_value('colorcolumn', '81', {})
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -211,26 +208,6 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
-  end,
-})
-
--- Automatically save and load folds
-vim.api.nvim_create_autocmd('BufWinLeave', {
-  desc = 'Autosave folds on exit',
-  command = 'mkview',
-})
-
-vim.api.nvim_create_autocmd('BufWinEnter', {
-  desc = 'Autoload folds on exit',
-  command = 'silent! loadview',
-})
-
-vim.api.nvim_create_autocmd('FileType', {
-  desc = 'Ensures tabs are used on Makefiles instead of spaces',
-  callback = function(event)
-    if event.match == 'make' then
-      vim.o.expandtab = false -- also tried with vim.opt
-    end
   end,
 })
 
@@ -940,40 +917,6 @@ require('lazy').setup({
   ]]
   --
 
-  {
-    'ellisonleao/gruvbox.nvim',
-    priority = 1000,
-    config = function()
-      -- Default options:
-      require('gruvbox').setup {
-        terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          emphasis = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = 'hard', -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
-      }
-      vim.o.background = 'dark' -- or "light" for light mode
-      vim.cmd 'colorscheme gruvbox'
-    end,
-  },
-
   -- Highlight todo, notes, etc in comments
   { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
@@ -1039,96 +982,6 @@ require('lazy').setup({
     --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
-  { -- Undotree visualizes the undo history and makes it easy to browse and switch between different undo branches.
-    'mbbill/undotree',
-
-    vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle, { desc = 'Open edit history' }),
-  },
-  { -- The NERDTree is a file system explorer for the Vim editor. Using this plugin,
-    -- users can visually browse complex directory hierarchies, quickly open files for reading or editing,
-    -- and perform basic file system operations.
-    'preservim/nerdtree',
-
-    vim.keymap.set('n', '<C-n>', vim.cmd.NERDTreeToggle, { desc = 'View directory hierarchies' }),
-  },
-  --  {
-  --    'neoclide/coc.nvim',
-  --  },
-  --{ -- DAP (Debug Adapter Protocol).
-  --  'mfussenegger/nvim-dap',
-  --  dependencies = {
-  --    'rcarriga/nvim-dap-ui',
-  --    'nvim-neotest/nvim-nio',
-  --  },
-  --  config = function()
-  --    local dap = require 'dap'
-  --    local dapui = require 'dapui'
-  --    dap.listeners.before.attach.dapui_config = function()
-  --      dapui.open()
-  --    end
-  --    dap.listeners.before.launch.dapui_config = function()
-  --      dapui.open()
-  --    end
-  --    dap.listeners.before.event_terminated.dapui_config = function()
-  --      dapui.close()
-  --    end
-  --    dap.listeners.before.event_exited.dapui_config = function()
-  --      dapui.close()
-  --    end
-  --    vim.keymap.set('n', '<Leader>b', function()
-  --      require('dap').toggle_breakpoint()
-  --    end, { desc = 'Toggle debug breakpoint' })
-
-  --    vim.keymap.set('n', '<Leader>cd', function()
-  --      require('dap').continue()
-  --    end, { desc = 'Continue debugging' })
-
-  --    dap.adapters.gdb = {
-  --      type = 'executable',
-  --      command = 'gdb',
-  --      args = { '--interpreter=dap', '--eval-command', 'set print pretty on' },
-  --    }
-
-  --    dap.configurations.c = {
-  --      {
-  --        name = 'Launch',
-  --        type = 'gdb',
-  --        request = 'launch',
-  --        program = function()
-  --          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
-  --        end,
-  --        cwd = '${workspaceFolder}',
-  --        stopAtBeginningOfMainSubprogram = false,
-  --      },
-  --      --{
-  --      --  name = 'Select and attach to process',
-  --      --  type = 'gdb',
-  --      --  request = 'attach',
-  --      --  program = function()
-  --      --    return vim.fn.input('Path to executable: /usr/bin/gdb', vim.fn.getcwd() .. '/', 'file')
-  --      --  end,
-  --      --  pid = function()
-  --      --    local name = vim.fn.input 'Executable name (filter): '
-  --      --    return require('dap.utils').pick_process { filter = name }
-  --      --  end,
-  --      --  cwd = '${workspaceFolder}',
-  --      --},
-  --      --{
-  --      --  name = 'Attach to gdbserver :1234',
-  --      --  type = 'gdb',
-  --      --  request = 'attach',
-  --      --  target = 'localhost:1234',
-  --      --  program = function()
-  --      --    return vim.fn.input('Path to executable: /usr/bin/gdb', vim.fn.getcwd() .. '/', 'file')
-  --      --  end,
-  --      --  cwd = '${workspaceFolder}',
-  --      --},
-  --    }
-  --  end,
-  --},
-  --{
-  --  'rcarriga/nvim-dap-ui',
-  --},
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
   -- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -1143,14 +996,14 @@ require('lazy').setup({
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
