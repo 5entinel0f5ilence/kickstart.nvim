@@ -41,6 +41,26 @@ vim.api.nvim_create_autocmd({ 'BufWritePre' }, {
   end,
 })
 
+local skeletons = vim.api.nvim_create_augroup('open_skeletons', { clear = true })
+vim.api.nvim_create_autocmd('BufNewFile', {
+  group = skeletons,
+  --group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
+  pattern = '*.c',
+  command = '0r ~/.config/nvim-kickstart/templates/skeleton.c',
+})
+vim.api.nvim_create_autocmd('BufNewFile', {
+  group = skeletons,
+  --group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
+  pattern = '*.sh',
+  command = '0r ~/.config/nvim-kickstart/templates/skeleton.sh',
+})
+--
+--vim.api.nvim_create_autocmd('BufNewFile', {
+--  group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
+--  pattern = 'README.md',
+--  command = '0r ~/.config/nvim/templates/readme.md',
+--})
+
 -- Vertical line at N characters from the left.
 --vim.api.nvim_set_option_value('colorcolumn', '81', {})
 
@@ -82,21 +102,24 @@ return {
       vim.cmd 'colorscheme gruvbox'
     end,
   },
+
   --{ -- The NERDTree is a file system explorer for the Vim editor. Using this plugin,
-  --  -- users can visually browse complex directory hierarchies, quickly open files for reading or editing,
-  --  -- and perform basic file system operations.
-  --  'preservim/nerdtree',
+  -- users can visually browse complex directory hierarchies, quickly open files for reading or editing,
+  -- and perform basic file system operations.
+  --'preservim/nerdtree',
 
   --  vim.keymap.set('n', '<C-n>', vim.cmd.NERDTreeToggle, { desc = 'View directory hierarchies' }),
   --},
+
   { -- Undotree visualizes the undo history and makes it easy to browse and switch between different undo branches.
     'mbbill/undotree',
-
     vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle, { desc = 'Open edit history' }),
   },
-  --  {
-  --    'neoclide/coc.nvim',
-  --  },
+
+  --{
+  --  'neoclide/coc.nvim',
+  --},
+
   --{ -- DAP (Debug Adapter Protocol).
   --  'mfussenegger/nvim-dap',
   --  dependencies = {
