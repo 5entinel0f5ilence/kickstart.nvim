@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   command = 'silent! loadview',
 })
 
--- Don't auto commenting new lines
+-- Don't auto comment new lines
 vim.api.nvim_create_autocmd('BufEnter', {
   desc = "Don't auto commenting new lines",
   pattern = '',
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd('BufNewFile', {
   pattern = '*.sh',
   command = '0r ~/.config/nvim-kickstart/templates/skeleton.sh',
 })
---
+
 --vim.api.nvim_create_autocmd('BufNewFile', {
 --  group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
 --  pattern = 'README.md',
@@ -69,39 +69,6 @@ vim.api.nvim_create_autocmd('BufNewFile', {
 --vim.g['webdevicons_enable_nerdtree'] = '1'
 
 return {
-  {
-    'ellisonleao/gruvbox.nvim',
-    priority = 1000,
-    config = function()
-      -- Default options:
-      require('gruvbox').setup {
-        terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          emphasis = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        invert_intend_guides = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = 'hard', -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = false,
-      }
-      vim.o.background = 'dark' -- or "light" for light mode
-      vim.cmd 'colorscheme gruvbox'
-    end,
-  },
 
   --{ -- The NERDTree is a file system explorer for the Vim editor. Using this plugin,
   -- users can visually browse complex directory hierarchies, quickly open files for reading or editing,
@@ -110,11 +77,6 @@ return {
 
   --  vim.keymap.set('n', '<C-n>', vim.cmd.NERDTreeToggle, { desc = 'View directory hierarchies' }),
   --},
-
-  { -- Undotree visualizes the undo history and makes it easy to browse and switch between different undo branches.
-    'mbbill/undotree',
-    vim.keymap.set('n', '<leader><F5>', vim.cmd.UndotreeToggle, { desc = 'Open edit history' }),
-  },
 
   --{
   --  'neoclide/coc.nvim',
