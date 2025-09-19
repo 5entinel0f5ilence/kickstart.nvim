@@ -46,13 +46,19 @@ vim.api.nvim_create_autocmd('BufNewFile', {
   group = skeletons,
   --group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
   pattern = '*.c',
-  command = '0r ~/.config/nvim-kickstart/templates/skeleton.c',
+  command = '0r ~/.config/nvim/templates/skeleton.c',
 })
 vim.api.nvim_create_autocmd('BufNewFile', {
   group = skeletons,
   --group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
   pattern = '*.sh',
-  command = '0r ~/.config/nvim-kickstart/templates/skeleton.sh',
+  command = '0r ~/.config/nvim/templates/skeleton.sh',
+})
+vim.api.nvim_create_autocmd('BufNewFile', {
+  group = skeletons,
+  --group = vim.api.nvim_create_augroup('create_skeletons', { clear = true }),
+  pattern = '*.nft',
+  command = '0r ~/.config/nvim/templates/skeleton.nft',
 })
 
 --vim.api.nvim_create_autocmd('BufNewFile', {
