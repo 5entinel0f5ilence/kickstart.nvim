@@ -68,11 +68,11 @@ vim.api.nvim_create_autocmd('BufNewFile', {
 --})
 
 -- Vertical line at N characters from the left.
---vim.api.nvim_set_option_value('colorcolumn', '81', {})
+vim.api.nvim_set_option_value('colorcolumn', '81', {})
 
---vim.api.nvim_set_option_value('encoding', 'UTF-8', {})
+vim.api.nvim_set_option_value('encoding', 'UTF-8', {})
 
---vim.g['webdevicons_enable_nerdtree'] = '1'
+vim.g['webdevicons_enable_nerdtree'] = '1'
 
 return {
 
